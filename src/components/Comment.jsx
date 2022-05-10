@@ -1,60 +1,65 @@
-import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 as uuidv4 } from "uuid";
 import { auth } from "./../firebaseConig";
 
-export default function Comment({id}) {
+export default function Comment({ id }) {
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [currentlyLoggedinUser] = useAuthState(auth);
+  const commentRef = doc(db, "Articles", id);
 
-    const [comment, setComment] = useState("");
-    const [comments, setComments] = useState([]);
-    const [currentlyLoggedinUser] = useAuthState(auth);
-    const commentRef = doc(db, "Articles", id);
+  useEffect(() => {
+    const docRef = doc(db, "Articles", id);
+    onSnapshot(docRef, (snapshot) => {
+      setComments(snapshot.data().comments);
+    });
+  }, []);
 
-    useEffect(() => {
-        const docRef = doc(db, "Articles", id);
-        onSnapshot(docRef, (snapshot) => {
-          setComments(snapshot.data().comments);
-        });
-      }, []);
+  const handleChangeComment = (e) => {
+    if (e.key === "Enter") {
+      updateDoc(commentRef, {
+        comments: arrayUnion({
+          user: currentlyLoggedinUser.uid,
+          userName: currentlyLoggedinUser.displayName,
+          comment: comment,
+          createdAt: new Date(),
+          commentId: uuidv4(),
+        }),
+      }).then(() => {
+        setComment("");
+      });
+    }
+  };
 
-      const handleChangeComment = (e) => {
-        if (e.key === "Enter") {
-          updateDoc(commentRef, {
-            comments: arrayUnion({
-              user: currentlyLoggedinUser.uid,
-              userName: currentlyLoggedinUser.displayName,
-              comment: comment,
-              createdAt: new Date(),
-              commentId: uuidv4(),
-            }),
-          }).then(() => {
-            setComment("");
-          });
-        }
-      };
-    
-      // delete comment function
-      const handleDeleteComment = (comment) => {
-        console.log(comment);
-        updateDoc(commentRef, {
-            comments:arrayRemove(comment),
-        })
-        .then((e) => {
-            console.log(e);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-      };
+  // delete comment function
+  const handleDeleteComment = (comment) => {
+    console.log(comment);
+    updateDoc(commentRef, {
+      comments: arrayRemove(comment),
+    })
+      .then((e) => {
+        console.log(e);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
       Comment
       <div className="container">
         {comments !== null &&
-          comments.map(({ commentId, user, comment, userName , createdAt}) => (
+          comments.map(({ commentId, user, comment, userName, createdAt }) => (
             <div key={commentId}>
               <div className="border p-2 mt-2 row">
                 <div className="col-11">
@@ -74,7 +79,15 @@ export default function Comment({id}) {
                     <i
                       className="fa fa-times"
                       style={{ cursor: "pointer" }}
-                      onClick={() => handleDeleteComment({ commentId, user, comment, userName , createdAt})}
+                      onClick={() =>
+                        handleDeleteComment({
+                          commentId,
+                          user,
+                          comment,
+                          userName,
+                          createdAt,
+                        })
+                      }
                     ></i>
                   )}
                 </div>
@@ -97,5 +110,5 @@ export default function Comment({id}) {
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -1,15 +1,15 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {auth} from "../../firebaseConig"
+import { auth } from "../../firebaseConig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export default function Register() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
-    let navigate = useNavigate();
+  let navigate = useNavigate();
 
   const handleSignup = async () => {
     try {
@@ -20,12 +20,11 @@ export default function Register() {
       toast(error.code, { type: "error" });
     }
   };
-  
+
   return (
-    <div className='border p-3 bg-light'
-    style={{marginTop:70}}>
-        <h1>Register</h1>
-       < div className="form-group">
+    <div className="border p-3 bg-light" style={{ marginTop: 70 }}>
+      <h1>Register</h1>
+      <div className="form-group">
         <label>Name</label>
         <input
           type="text"
@@ -64,5 +63,5 @@ export default function Register() {
         Register
       </button>
     </div>
-  )
+  );
 }

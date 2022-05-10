@@ -4,10 +4,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router-dom";
 import { auth, db } from "../firebaseConig";
 import LikeArticle from "./LikeArticle";
-import Comment from './Comment';
+import Comment from "./Comment";
 
 export default function Article() {
-    const { id } = useParams();
+  const { id } = useParams();
   const [article, setArticle] = useState(null);
   const [user] = useAuthState(auth);
 
@@ -47,5 +47,5 @@ export default function Article() {
         </div>
       )}
     </div>
-  )
+  );
 }

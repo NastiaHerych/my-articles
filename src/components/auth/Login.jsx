@@ -2,24 +2,25 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "./../../firebaseConig";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export default function Login() {
-    let navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-  
-    const handleLogin = async () => {
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        navigate("/");
-      } catch (error) {
-        toast(error.code, { type: "error" });
-      }
-    };
+  let navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (error) {
+      toast(error.code, { type: "error" });
+    }
+  };
   return (
-    <div className="border p-3 bg-light mx-auto"
-    style={{maxWidth:400, marginTop:60}}
+    <div
+      className="border p-3 bg-light mx-auto"
+      style={{ maxWidth: 400, marginTop: 60 }}
     >
       <h1>Login</h1>
       <div className="form-group">
@@ -50,5 +51,5 @@ export default function Login() {
         Login
       </button>
     </div>
-  )
+  );
 }
