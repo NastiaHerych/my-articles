@@ -3,8 +3,12 @@ import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { storage, db} from "../firebaseConig";
 import { ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 import { toast } from 'react-toastify';
+import { auth } from '../firebaseConig';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Link } from 'react-router-dom';
 
 export default function AddArticle() {
+    const [user] = useAuthState(auth);
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -56,6 +60,10 @@ export default function AddArticle() {
                     description: formData.description,
                     imageUrl: url,
                     createdAt: Timestamp.now().toDate(),
+                    createdBy:user.displayName,
+                    userId:user.uid,
+                    likes:[],
+                    comments:[]
                   })
                   .then(()=>{
                       toast("Article added sucessfully", {type: "success"});
@@ -73,35 +81,65 @@ export default function AddArticle() {
         
 
   return (
-    <div className='border p-3 mt-3 bg-light' style={{position:"fixed"}}>
-        <h2>Create Announcement</h2>
-        <label htmlFor=''>Title</label>
-        <input type = "text" name='title' className='form-control'
-        value={formData.title} onChange={(e) => handleChange(e)}></input>
-        
-        {/*description*/}
-        <label htmlFor=''>Description</label>
-        <textarea name='description' className='form-control' 
-        value={formData.description}
-        onChange={(e) => handleChange(e)}></textarea>
-
-         {/*image*/}
-         <label htmlFor=''>Image</label>
-         <input type = "file" name='image' accept="image/*" className='form-control'
-         onChange={(e) => handleImageChange(e)}></input>
-
-        {progress === 0 ? null : (
-         <div className="progress">
-             <div className="progress-bar progress-bar-striped mt-2" 
-             style={{ width: `${progress}%` }}
-             >
-               {`uploading image ${progress}%`}
-             </div>
-          </div>   
-        )}
-        <button className='form-control btn-primary mt-2' onClick={handlePublish}>Publish</button>
-
-        
+    <div className='border p-3 mt-5 bg-light' style={{position:"fixed"}}>
+          {!user ? (
+            <>
+              <h2>
+                <Link to="/signin">Login to create article</Link>
+              </h2>
+              Don't have an account? <Link to="/register">Signup</Link>
+            </>
+          ) : (
+            <>
+              <h2>Create article</h2>
+              <div className="form-group">
+                <label htmlFor="">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  className="form-control"
+                  value={formData.title}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+    
+              {/* description */}
+              <label htmlFor="">Description</label>
+              <textarea
+                name="description"
+                className="form-control"
+                value={formData.description}
+                onChange={(e) => handleChange(e)}
+              />
+    
+              {/* image */}
+              <label htmlFor="">Image</label>
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                className="form-control"
+                onChange={(e) => handleImageChange(e)}
+              />
+    
+              {progress === 0 ? null : (
+                <div className="progress">
+                  <div
+                    className="progress-bar progress-bar-striped mt-2"
+                    style={{ width: `${progress}%` }}
+                  >
+                    {`uploading image ${progress}%`}
+                  </div>
+                </div>
+              )}
+              <button
+                className="form-control btn-primary mt-2"
+                onClick={handlePublish}
+              >
+                Publish
+              </button>
+            </>
+          )}
         </div>
   )
 }
