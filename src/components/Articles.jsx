@@ -5,6 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import DeleteArticle from './DeleteArticle';
 import { auth } from '../firebaseConig';
 import LikeArticle from './LikeArticle';
+import { Link } from "react-router-dom";
 
 export default function Articles() {
     const [articles, setArticles] = useState([]);
@@ -32,7 +33,9 @@ export default function Articles() {
                     <div className='border mt-5 p-3 bg-light' key={id}>
                         <div className='row'>
                             <div className='col-3'>
+                            <Link to={`/article/${id}`}>
                                 <img src = {imageUrl} alt="title" style={{height:180, width:180}}></img>
+                            </Link>
                             </div>
                             <div className='col-9 ps-3'>
                                 <div className='row'>

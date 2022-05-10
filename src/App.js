@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Article from "./components/Article";
 
 
 function App() {
@@ -17,6 +18,10 @@ function App() {
           <Route path="/signin" element={
             <Login></Login>
           }></Route>
+          <Route path="/article/:id" element={
+          <Article></Article>
+          }></Route>
+
           <Route path="/" element={
             <div className="row">
                     <div className="col-md-8">
