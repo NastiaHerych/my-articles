@@ -81,17 +81,18 @@ export default function AddArticle() {
   };
 
   return (
-    <div className="border p-3 mt-5 bg-light" style={{ position: "fixed" }}>
+    <div className="border p-3 mt-5" style={{ position: "fixed", 
+    backgroundColor:"#97C4B8" }}>
       {!user ? (
         <>
-          <h2>
-            <Link to="/signin">Login to create article</Link>
-          </h2>
+          <h3>
+            <Link to="/signin">Login to create announcement</Link>
+          </h3>
           Don't have an account? <Link to="/register">Signup</Link>
         </>
       ) : (
         <>
-          <h2>Create article</h2>
+          <h2>Create announcement</h2>
           <div className="form-group">
             <label htmlFor="">Title</label>
             <input

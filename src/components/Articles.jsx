@@ -39,7 +39,8 @@ export default function Articles() {
             likes,
             comments,
           }) => (
-            <div className="border mt-5 p-3 bg-light" key={id}>
+            <div className="border p-3" key={id}
+            style={{backgroundColor:"#CCF3EE", marginTop: 70}}>
               <div className="row">
                 <div className="col-3">
                   <Link to={`/article/${id}`}>

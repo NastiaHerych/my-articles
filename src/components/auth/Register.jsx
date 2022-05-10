@@ -22,7 +22,8 @@ export default function Register() {
   };
 
   return (
-    <div className="border p-3 bg-light" style={{ marginTop: 70 }}>
+    <div className="border p-3 mx-auto" style={{ marginTop: 70,
+    backgroundColor:"#CCF3EE", width: 500 }}>
       <h1>Register</h1>
       <div className="form-group">
         <label>Name</label>

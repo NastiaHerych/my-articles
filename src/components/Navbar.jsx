@@ -8,7 +8,7 @@ export default function Navbar() {
   const [user] = useAuthState(auth);
 
   return (
-    <div className="fixed-top border" style={{ backgroundColor: "whitesmoke" }}>
+    <div className="fixed-top border" style={{ backgroundColor: "#97C4B8" }}>
       <nav className="navbar">
         <div>
           <img
@@ -19,8 +19,15 @@ export default function Navbar() {
             className="ms-5"
           />
         </div>
+        
+        <Link className="nav-link" to="/signin">
+          Login
+        </Link>
         <Link className="nav-link" to="/">
           Home
+        </Link>
+        <Link className="nav-link" to="/register">
+          Register
         </Link>
         <div>
           {user && (

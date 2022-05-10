@@ -8,7 +8,7 @@ import Article from "./components/Article";
 
 function App() {
   return (
-    <div className="container">
+    <div className="container" >
       <Router>
         <Routes>
           <Route path="/register" element={<Register></Register>}></Route>

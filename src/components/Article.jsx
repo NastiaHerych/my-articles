@@ -18,7 +18,8 @@ export default function Article() {
     });
   }, []);
   return (
-    <div className="container border bg-light" style={{ marginTop: 70 }}>
+    <div className="container border " style={{ marginTop: 70, 
+    backgroundColor:"#CCF3EE", width: 900 }}>
       {article && (
         <div className="row">
           <div className="col-3">

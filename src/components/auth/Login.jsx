@@ -19,8 +19,8 @@ export default function Login() {
   };
   return (
     <div
-      className="border p-3 bg-light mx-auto"
-      style={{ maxWidth: 400, marginTop: 60 }}
+      className="border p-3 mx-auto"
+      style={{ maxWidth: 400, marginTop: 60, backgroundColor:"#CCF3EE" }}
     >
       <h1>Login</h1>
       <div className="form-group">
